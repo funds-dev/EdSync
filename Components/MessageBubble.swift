@@ -98,3 +98,57 @@ struct MessageGroup : View {
     }
   }
 }
+
+// Message Container
+struct MessageContainer: View {
+  var allMessages: [Message]
+
+  // Groups all messages by sender and time prox.
+  var groupedMessages: [[Message]] {
+    var result: [[Message]] = []
+    var currentGroup: [Message] = []
+
+    for message in allMessages {
+      if let lastMessage = currentGroup.last, shouldGroup(current: message, previous: lastMessage) {
+        currentGroup.append(message)
+      } else {
+        if !currentGroup.isEmpty {
+          result.append(currentGroup)
+        }
+        currentGroup = [message]
+      }
+
+      if !currentGroup.isEmpty {
+        result.append(currentGroup)
+      }
+
+      return result
+    }
+
+    var body: some View {
+      ScrollView {
+        VStack(spacing: 8) {
+          ForEach(Array(groupedMessages.enumerated()), id: \.offset) {_, group in
+            MessageGroup(messages: group)
+          }
+        }
+        .padding(.vertical)
+      }
+    }
+  }
+
+  struct MessageBubblePreview: View {
+    let messages: [Message] = [
+      // Enter messages you want to preview here with format
+      // Message(id: *ID*, sender: *SENDER*, text: *TEXT*, received: *BOOL*, timestamp: *TIMESTAMP*)
+    ]
+
+    var body: some View {
+      MessageContainer(allMessages: messages)
+    }
+  }
+
+  #Preview {
+    MessageBubblePreview()
+  }
+                                                                      
