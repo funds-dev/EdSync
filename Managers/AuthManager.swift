@@ -1,3 +1,4 @@
+// Managers/AuthManager.swift
 struct AuthManager {
     static func createAccount(fullname: String, username: String, password: String, confirmPassword: String, onSuccess: @escaping () -> Void, onError: @escaping () -> Void) {
         guard !fullname.isEmpty, !username.isEmpty, !password.isEmpty, !confirmPassword.isEmpty, password == confirmPassword else {
