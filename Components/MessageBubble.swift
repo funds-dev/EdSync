@@ -1,3 +1,4 @@
+// Components/MessageBubble.swift
 import SwiftUI
 
 // Helper func to format timestamp
